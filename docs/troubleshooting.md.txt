@@ -1,0 +1,18 @@
+# Troubleshooting
+
+## Issue 1 — Service Catalog Provisioning Failed
+
+### Error
+
+During the first Service Catalog launch, provisioning failed with an
+AccessDenied error related to:
+
+ssm:GetParameters
+
+### Cause
+
+The CloudFormation template uses an AWS Systems Manager Parameter
+Store dynamic reference to retrieve the latest Amazon Linux 2023 AMI:
+
+```yaml
+ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}'

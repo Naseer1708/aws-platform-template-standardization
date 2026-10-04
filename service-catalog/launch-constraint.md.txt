@@ -1,0 +1,61 @@
+# AWS Service Catalog Launch Constraint
+
+## Constraint Type
+
+LAUNCH
+
+## Product
+
+Standard Application
+
+## Purpose
+
+The launch constraint specifies the IAM role that AWS Service Catalog
+uses when an authorized end user launches the product.
+
+## IAM Launch Role
+
+ServiceCatalogStandardAppLaunchRole
+
+## Trust Relationship
+
+The IAM role allows AWS Service Catalog to assume the role.
+
+Trusted service:
+
+servicecatalog.amazonaws.com
+
+## Role Responsibilities
+
+The launch role provides permissions required to provision the
+CloudFormation template.
+
+Required services include:
+
+- AWS CloudFormation
+- Amazon EC2
+- Amazon S3
+- AWS Systems Manager Parameter Store
+
+## Important Permission
+
+The CloudFormation template retrieves the Amazon Linux AMI through
+AWS Systems Manager Parameter Store.
+
+Therefore the launch role requires:
+
+ssm:GetParameters
+
+## Provisioning Flow
+
+End User
+    ↓
+AWS Service Catalog
+    ↓
+Launch Constraint
+    ↓
+ServiceCatalogStandardAppLaunchRole
+    ↓
+AWS CloudFormation
+    ↓
+AWS Infrastructure

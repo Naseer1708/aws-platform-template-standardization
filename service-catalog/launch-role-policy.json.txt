@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadServiceCatalogProvisioningArtifact",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "s3:ExistingObjectTag/servicecatalog:provisioning": "true"
+        }
+      }
+    },
+    {
+      "Sid": "ReadAmazonLinuxAMIParameter",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameters"
+      ],
+      "Resource": "arn:aws:ssm:ap-south-2::parameter/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+# AWS Service Catalog Product
+
+## Product Name
+
+Standard Application
+
+## Product Type
+
+CloudFormation Template
+
+## Description
+
+Standardized application infrastructure provisioned using AWS CloudFormation.
+
+## Product Version
+
+v1
+
+## Template
+
+standard-application-v1.yaml
+
+## Template Location
+
+cloudformation/standard-application-v1.yaml
+
+## Version Description
+
+Initial standardized application infrastructure template.
+
+## Parameters
+
+The product accepts the following parameters:
+
+- ApplicationName
+- Environment
+- InstanceType
+
+## Example Deployment
+
+ApplicationName:
+
+standard-app-sc
+
+Environment:
+
+Dev
+
+InstanceType:
+
+t3.micro
+
+## Provisioned Product
+
+During testing, the product was successfully provisioned as:
+
+standard-app-sc-v2
+
+## Successful Status
+
+AVAILABLE
+
+## Provisioning Operation
+
+PROVISION_PRODUCT
+
+## Provisioning Result
+
+Succeeded

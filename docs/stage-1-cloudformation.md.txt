@@ -1,0 +1,98 @@
+# Stage 1 — AWS CloudFormation
+
+## Objective
+
+The first stage of the project was to create and validate a
+standardized AWS infrastructure template using CloudFormation.
+
+## Region
+
+AWS Region:
+
+Asia Pacific (Hyderabad)
+
+Region Code:
+
+ap-south-2
+
+## CloudFormation Template
+
+Template:
+
+standard-application-v1.yaml
+
+The template defines the following infrastructure:
+
+- VPC
+- Internet Gateway
+- Internet Gateway Attachment
+- Public Subnet
+- Route Table
+- Public Route
+- Route Table Association
+- Security Group
+- EC2 Instance
+
+## Parameters
+
+The template provides controlled parameters:
+
+- ApplicationName
+- Environment
+- InstanceType
+
+Example:
+
+ApplicationName = standard-app
+Environment = Dev
+InstanceType = t3.micro
+
+## Template Studio
+
+AWS CloudFormation Template Studio was used to visualize the
+relationships between the infrastructure resources.
+
+The visual architecture was used to verify the template before
+deployment.
+
+## Stack
+
+CloudFormation stack:
+
+standard-application-dev-v1
+
+## Tags
+
+The stack used the following project tags:
+
+Project = PlatformStandardization
+Environment = Dev
+ManagedBy = CloudFormation
+
+## Deployment Result
+
+The CloudFormation stack successfully reached:
+
+CREATE_COMPLETE
+
+## Resources Created
+
+The deployment created:
+
+1. VPC
+2. Internet Gateway
+3. Internet Gateway Attachment
+4. Public Subnet
+5. Public Route Table
+6. Default Public Route
+7. Route Table Association
+8. Security Group
+9. EC2 Instance
+
+## Stage 1 Outcome
+
+The standardized infrastructure template was successfully validated
+and deployed.
+
+The same template was then used as the foundation for the
+AWS Service Catalog product in Stage 2.

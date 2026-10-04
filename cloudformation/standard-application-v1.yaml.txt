@@ -1,0 +1,164 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Standardized application infrastructure for the
+  AWS Platform Template Standardization project.
+
+Parameters:
+
+  ApplicationName:
+    Type: String
+    Default: standard-app
+    Description: Name of the application.
+    AllowedPattern: '^[a-zA-Z0-9-]+$'
+    ConstraintDescription: Use only letters, numbers, and hyphens.
+
+  Environment:
+    Type: String
+    Default: Dev
+    AllowedValues:
+      - Dev
+      - Test
+      - Prod
+    Description: Deployment environment.
+
+  InstanceType:
+    Type: String
+    Default: t3.micro
+    AllowedValues:
+      - t3.micro
+      - t3.small
+    Description: EC2 instance type.
+
+Resources:
+
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${ApplicationName}-${Environment}-vpc'
+        - Key: Project
+          Value: PlatformStandardization
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: ManagedBy
+          Value: CloudFormation
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub '${ApplicationName}-${Environment}-igw'
+        - Key: Project
+          Value: PlatformStandardization
+
+  AttachInternetGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub '${ApplicationName}-${Environment}-public-subnet'
+        - Key: Project
+          Value: PlatformStandardization
+        - Key: Environment
+          Value: !Ref Environment
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${ApplicationName}-${Environment}-public-rt'
+        - Key: Project
+          Value: PlatformStandardization
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachInternetGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  ApplicationSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for the standardized application.
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: HTTP access
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub '${ApplicationName}-${Environment}-sg'
+        - Key: Project
+          Value: PlatformStandardization
+        - Key: Environment
+          Value: !Ref Environment
+
+  ApplicationInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}'
+      SubnetId: !Ref PublicSubnet
+      SecurityGroupIds:
+        - !Ref ApplicationSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub '${ApplicationName}-${Environment}-server'
+        - Key: Project
+          Value: PlatformStandardization
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: ManagedBy
+          Value: CloudFormation
+
+Outputs:
+
+  VPCId:
+    Description: ID of the created VPC.
+    Value: !Ref VPC
+
+  PublicSubnetId:
+    Description: ID of the public subnet.
+    Value: !Ref PublicSubnet
+
+  SecurityGroupId:
+    Description: ID of the created security group.
+    Value: !Ref ApplicationSecurityGroup
+
+  InstanceId:
+    Description: ID of the application EC2 instance.
+    Value: !Ref ApplicationInstance
+
+  ApplicationURL:
+    Description: Public HTTP URL of the application server.
+    Value: !Sub 'http://${ApplicationInstance.PublicIp}'

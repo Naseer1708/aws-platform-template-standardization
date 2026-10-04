@@ -1,0 +1,168 @@
+# Stage 2 — AWS Service Catalog
+
+## Objective
+
+The second stage converts the standardized CloudFormation template
+into a governed and reusable Service Catalog product.
+
+## Region
+
+AWS Region:
+
+Asia Pacific (Hyderabad)
+
+Region Code:
+
+ap-south-2
+
+## Step 1 — Portfolio
+
+Portfolio:
+
+Standard Application Infrastructure
+
+Description:
+
+Approved standardized application infrastructure for development
+and testing.
+
+Owner:
+
+Platform Engineering Team
+
+## Step 2 — Product
+
+Product:
+
+Standard Application
+
+Product Type:
+
+CLOUD_FORMATION_TEMPLATE
+
+Version:
+
+v1
+
+Template:
+
+standard-application-v1.yaml
+
+## Step 3 — Portfolio Association
+
+The Standard Application product was added to the
+Standard Application Infrastructure portfolio.
+
+## Step 4 — Launch Constraint
+
+A LAUNCH constraint was created for the Standard Application
+product.
+
+The constraint specifies:
+
+ServiceCatalogStandardAppLaunchRole
+
+as the provisioning role.
+
+## Step 5 — IAM Launch Role
+
+Role:
+
+ServiceCatalogStandardAppLaunchRole
+
+The role is trusted by:
+
+servicecatalog.amazonaws.com
+
+The role contains permissions required to provision the resources
+defined by the CloudFormation template.
+
+## Step 6 — Portfolio Access
+
+The portfolio was shared with:
+
+naseer_user
+
+The user was given Service Catalog end-user permissions.
+
+## Step 7 — End-User Launch
+
+The end user logged into AWS and accessed:
+
+Service Catalog → Products
+
+The user could see:
+
+Standard Application
+
+## Step 8 — Provisioning
+
+The product was launched with:
+
+Provisioned Product:
+
+standard-app-sc-v2
+
+Version:
+
+v1
+
+ApplicationName:
+
+standard-app-sc
+
+Environment:
+
+Dev
+
+InstanceType:
+
+t3.micro
+
+## Step 9 — Successful Provisioning
+
+The provisioned product reached:
+
+AVAILABLE
+
+The provisioning event showed:
+
+PROVISION_PRODUCT
+
+Status:
+
+Succeeded
+
+## Step 10 — CloudFormation Integration
+
+Service Catalog provisioned the infrastructure by creating a
+CloudFormation stack from the approved product template.
+
+The resulting infrastructure included:
+
+- VPC
+- Public Subnet
+- Route Table
+- Internet Gateway
+- Security Group
+- EC2 Instance
+
+## Stage 2 Outcome
+
+AWS Service Catalog successfully provided a governed self-service
+mechanism for provisioning the standardized CloudFormation
+infrastructure.
+
+## Final Concept
+
+CloudFormation provides the infrastructure-as-code and provisioning
+engine.
+
+Service Catalog provides:
+
+- Product cataloging
+- Portfolio management
+- Access control
+- Launch constraints
+- Versioned approved templates
+- Self-service provisioning

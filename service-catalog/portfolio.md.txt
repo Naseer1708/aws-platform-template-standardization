@@ -1,0 +1,35 @@
+# AWS Service Catalog Portfolio
+
+## Portfolio Name
+
+Standard Application Infrastructure
+
+## Description
+
+Approved standardized application infrastructure for development and testing.
+
+## Owner
+
+Platform Engineering Team
+
+## AWS Region
+
+Asia Pacific (Hyderabad)
+
+Region Code:
+
+ap-south-2
+
+## Purpose
+
+The portfolio acts as a controlled container for approved
+infrastructure products.
+
+It allows authorized users to discover and launch standardized
+AWS infrastructure through AWS Service Catalog.
+
+## Portfolio Access
+
+The portfolio was shared with the IAM user:
+
+naseer_user

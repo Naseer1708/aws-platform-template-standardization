@@ -1,0 +1,105 @@
+# Project Architecture
+
+## Overview
+
+The project demonstrates standardized and governed AWS infrastructure
+provisioning using AWS CloudFormation and AWS Service Catalog.
+
+## Architecture Flow
+
+Platform Engineering Team
+        |
+        v
+CloudFormation Template
+        |
+        v
+Service Catalog Product
+        |
+        v
+Service Catalog Portfolio
+        |
+        v
+Portfolio Access
+        |
+        v
+Authorized End User
+        |
+        v
+Launch Constraint
+        |
+        v
+IAM Launch Role
+        |
+        v
+AWS CloudFormation
+        |
+        +----------------+
+        |                |
+        v                v
+      VPC             EC2 Instance
+        |
+        +--> Public Subnet
+        |
+        +--> Route Table
+        |
+        +--> Internet Gateway
+        |
+        +--> Security Group
+
+## Main Components
+
+### AWS CloudFormation
+
+Defines the infrastructure as code and provisions the required
+AWS resources.
+
+### AWS Service Catalog
+
+Provides a governed self-service mechanism for authorized users
+to launch approved infrastructure products.
+
+### Portfolio
+
+Contains approved infrastructure products and controls access
+to those products.
+
+### Product
+
+Represents the standardized CloudFormation template as a
+reusable infrastructure product.
+
+### Launch Constraint
+
+Specifies the IAM role that Service Catalog uses when provisioning
+the product.
+
+### IAM Launch Role
+
+Provides the permissions required to provision the infrastructure.
+
+### End User
+
+The authorized user can discover and launch the approved product
+without directly creating each infrastructure component.
+
+## Deployment Flow
+
+1. Platform team creates the CloudFormation template.
+2. CloudFormation template is validated.
+3. Template is deployed and tested.
+4. Template is uploaded as a Service Catalog product.
+5. Product is added to a portfolio.
+6. Launch constraint is configured.
+7. IAM launch role is associated with the launch constraint.
+8. Authorized user receives portfolio access.
+9. User launches the product.
+10. Service Catalog assumes the launch role.
+11. CloudFormation provisions the infrastructure.
+12. Provisioned product becomes AVAILABLE.
+
+## Key Concept
+
+CloudFormation acts as the infrastructure provisioning engine,
+while Service Catalog provides governance, controlled access,
+versioning, and self-service provisioning around the approved
+CloudFormation template.
